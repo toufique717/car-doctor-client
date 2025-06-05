@@ -1,4 +1,4 @@
- import React from 'react';
+ import React, { useEffect, useState } from 'react';
 import image1 from '../../assets/1.jpg'
 import image2 from '../../assets/2.jpg'
 import image3 from '../../assets/3.jpg'
@@ -6,8 +6,18 @@ import image4 from '../../assets/4.jpg'
 import image5 from '../../assets/5.jpg'
 import person from '../../assets/person.jpg'
 import parts from  '../../assets/parts.jpg'
+import Servicescard from './servicescard';
 
 const Home = () => {
+
+    const [services,setservices] = useState([])
+
+    useEffect(()=>
+        {
+            fetch('services.json')
+            .then(res=>res.json())
+            .then (data=>setservices(data))
+        },[])
     return (
         <div>
             <h1>This is home</h1>
@@ -149,6 +159,29 @@ const Home = () => {
     </div>
   </div>
 </div>
+</div>
+
+<div className='py-8 flex flex-col items-center space-y-2'>
+    {/* Our service section */}
+
+    <p className='text-xl font-bold text-orange-600 '>Our Services</p>
+    <p className='text-3xl font-bold '>Our Services Area </p>
+    <p className=''> At  we are committed to delivering high-quality solutions that cater to y   in achieving their goals through  </p>
+
+    <p> personalized attention and expert execution</p>
+
+    <div className='grid grid-cols-3 gap-4 '>
+        
+    {
+        services.map(service=><Servicescard
+        
+        key={service._id}
+        service={service}>
+
+        </Servicescard>)
+    }
+    </div>
+
 </div>
 
 
