@@ -3,28 +3,27 @@ import login from '../../assets/login.svg'
 import { Link } from 'react-router-dom';
 import { Authcontext } from '../../provider/Authprovider';
 
-const Login = () => {
+const Signup = () => {
 
-  const {signin} = useContext(Authcontext);
+    const {createuser} = useContext(Authcontext);
 
-    const handlelogin = (e)=>
+    const handlesignup = (e)=>
     {
         e.preventDefault();
         const form = e.target;
-         
+        const  name = form.email.value;
         const email = form.email.value;
         const password = form.password.value;
-        console.log(email,password);
+        console.log(name,email,password);
 
-        signin(email,password)
+        createuser(email,password)
         .then(result=>
         {
-          const user = result.user;
-          console.log(user);
-
+            const user = result.user;
+            console.log(user)
         }
         )
-        .catch(error=>console.log(error));
+        .then(error=>console.log(error))
 
     }
     return (
@@ -42,8 +41,17 @@ const Login = () => {
 
     </div>
     <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-        <p className='text-3xl text-center font-bold pt-8'>Login</p>
-      <form onSubmit={handlelogin}  className="card-body">
+        <p className='text-3xl text-center font-bold pt-8'>Signup</p>
+      <form onSubmit={handlesignup}  className="card-body">
+        
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Name</span>
+          </label>
+          <input type="text" name="name" placeholder="Your Name" className="input input-bordered" required />
+        </div>
+
+
         <div className="form-control">
           <label className="label">
             <span className="label-text">Email</span>
@@ -61,13 +69,14 @@ const Login = () => {
         </div>
         <div className="form-control mt-6">
           {/* <button className="btn btn-primary">Login</button> */}
-          <input value='Login'  type='submit' name='button' className="btn btn-primary" ></input>
+          <input value='Signup'  type='submit' name='button' className="btn btn-primary" ></input>
         </div>
 
-        <div className='  flex  '>
-             <p>Do not Have An Account?please <span className='text-blue-700 hover:underline'> <Link to="/signup">  Signup</Link></span> </p>  
-              
+        <div className=' grid grid-cols-2 '>
+             <p>Have An Account ? please </p>  
+             <p className='text-blue-700 hover:underline'><Link to="/login"> Login</Link></p>
         </div>
+         
       </form>
     </div>
   </div>
@@ -77,4 +86,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default  Signup ;
