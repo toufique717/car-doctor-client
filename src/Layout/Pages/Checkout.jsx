@@ -1,10 +1,33 @@
+import { useContext } from "react";
 import { useLoaderData } from "react-router-dom";
+import { Authcontext } from "../../provider/Authprovider";
 
  
 
 const Checkout = () => {
     const servise = useLoaderData();
-    const {title,_id} = servise;
+    const {title,_id,price} = servise;
+    const {user} = useContext(Authcontext)
+
+    const handlesubmit = event => {
+  event.preventDefault();
+  const form = event.target;
+
+  const name = form.name.value;
+  const date = form.date.value;
+  const email = user?.email;
+  
+  const order = {
+    customername: name,
+    email,
+    date,
+    service: _id,
+    price: price,
+  };
+
+  console.log(order);
+};
+
     return (
         <div>
             <h1> This is Checkout Page {title} </h1>
@@ -13,27 +36,45 @@ const Checkout = () => {
                 {/* Form div  */}
 
                 <div className="hero bg-base-200 min-h-screen">
-  <div className="hero-content flex-col lg:flex-row-reverse">
+  <div className=" ">
      
-    <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-      <form className="card-body">
+    <div className="card bg-base-100 w-full       shrink-0 shadow-2xl">
+      <form  onSubmit={handlesubmit}className="card-body">
+        <div className="form-control grid grid-cols-2 gap-8">
+          <div>
+             <label className="label">
+            <span className="label-text">Name</span>
+          </label>
+          <input type="text" name="name"   className="input input-bordered" required />
+        </div>
+
+        
         <div className="form-control">
           <label className="label">
+            <span className="label-text">Date</span>
+          </label>
+          <input type="date" name="date"   className="input input-bordered" required />
+          </div>
+
+
+            <div>
+             <label className="label">
             <span className="label-text">Email</span>
           </label>
-          <input type="email" placeholder="email" className="input input-bordered" required />
+          <input type="email" defaultValue={user?.email} placeholder="email" className="input input-bordered" required />
         </div>
+
+        
         <div className="form-control">
           <label className="label">
-            <span className="label-text">Password</span>
+            <span className="label-text">due Amoubt</span>
           </label>
-          <input type="password" placeholder="password" className="input input-bordered" required />
-          <label className="label">
-            <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
-          </label>
+          <input type="text"  defaultValue={'$'+ price} className="input input-bordered" required />
+          </div>
+          
         </div>
         <div className="form-control mt-6">
-          <button className="btn btn-primary">Login</button>
+          <button className="btn btn-primary">submit</button>
         </div>
       </form>
     </div>
