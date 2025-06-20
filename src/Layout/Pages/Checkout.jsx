@@ -6,7 +6,7 @@ import { Authcontext } from "../../provider/Authprovider";
 
 const Checkout = () => {
     const servise = useLoaderData();
-    const {title,_id,price} = servise;
+    const {title,_id,price,img} = servise;
     const {user} = useContext(Authcontext)
 
     const handlesubmit = event => {
@@ -17,15 +17,39 @@ const Checkout = () => {
   const date = form.date.value;
   const email = user?.email;
   
-  const order = {
+  const  booking = {
     customername: name,
     email,
     date,
-    service: _id,
+    service :title,
+    service_id: _id,
     price: price,
+    img,
   };
 
-  console.log(order);
+  console.log(booking);
+
+  fetch('http://localhost:5000/bookings',
+    {
+      method: 'POST',
+      headers:
+      {
+        'content-type' : 'application/json'
+      },
+
+      body: JSON.stringify(booking)
+    }
+  )
+  .then(res =>res.json())
+  .then(data =>
+  {
+     console.log(data);
+     if(data.insertedId)
+     {
+      alert('service book successfully');
+     }
+  }
+  )
 };
 
     return (
