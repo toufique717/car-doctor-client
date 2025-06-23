@@ -1,6 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Authcontext } from '../../provider/Authprovider';
 import Bookingservice from './Bookingservice';
+import { linkWithCredential } from 'firebase/auth';
+// Bookings.jsx এর উপরে এই লাইনটা যোগ করো:
+import axios from 'axios';
+
 
 const Bookings = () => {
     const { user } = useContext(Authcontext);
@@ -9,9 +13,14 @@ const Bookings = () => {
     const url = `http://localhost:5000/bookings?email=${user?.email}`;
 
     useEffect(() => {
-        fetch(url)
-            .then(res => res.json())
-            .then(data => setBookings(data));
+
+        axios.get(url,{withCredentials:true})
+        .then(res =>
+        {setBookings(res.data)}
+        )
+        // fetch(url)
+        //     .then(res => res.json())
+        //     .then(data => setBookings(data));
     }, [url]);
 
 
